@@ -9,6 +9,7 @@ from datetime import date
 
 from models.adress import Adress
 from models.course import Course
+from daos.course_dao import CourseDao
 from models.teacher import Teacher
 from models.student import Student
 from business.school import School
@@ -97,18 +98,16 @@ def main() -> None:
 Bienvenue dans notre école
 --------------------------""")
 
-    school: School = School()
+    school = School()
 
-    # initialisation d'un ensemble de cours, enseignants et élèves composant l'école
-    init_school(school)
+    # Récupération des cours depuis la base de données et ajout à l'école
+    course_dao = CourseDao()
+    school.load_courses_from_db()
 
-    # affichage de la liste des cours, leur enseignant et leurs élèves
+    # Affichage de tous les cours
     school.display_courses_list()
 
-    print(school.get_course_by_id(1))
-    print(school.get_course_by_id(2))
-    print(school.get_course_by_id(3))
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
+

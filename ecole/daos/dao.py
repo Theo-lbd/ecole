@@ -18,8 +18,7 @@ class Dao[T](ABC):
                         password='',
                         database='ecole',
                         cursorclass=pymysql.cursors.DictCursor)
-    print("Connexion réussie!")
-
+    print("connexion reussi!")
     @abstractmethod
     def create(self, obj: T) -> int:
         """Crée l'entité en BD correspondant à l'objet obj

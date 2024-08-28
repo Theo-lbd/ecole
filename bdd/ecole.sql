@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 27 août 2024 à 06:28
+-- Généré le : mar. 27 août 2024 à 08:28
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.2.18
 
@@ -34,7 +34,16 @@ CREATE TABLE IF NOT EXISTS `address` (
   `city` varchar(50) NOT NULL,
   `postal_code` smallint NOT NULL,
   PRIMARY KEY (`id_address`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `address`
+--
+
+INSERT INTO `address` (`id_address`, `street`, `city`, `postal_code`) VALUES
+(1, '12 rue des Pinsons', 'Castanet', 31320),
+(2, '43 avenue Jean Zay', 'Toulouse', 31200),
+(3, '7 impasse des Coteaux', 'Cornebarrieu', 31150);
 
 -- --------------------------------------------------------
 
@@ -51,15 +60,21 @@ CREATE TABLE IF NOT EXISTS `course` (
   `id_teacher` int NOT NULL,
   PRIMARY KEY (`id_course`),
   KEY `id_teacher` (`id_teacher`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `course`
 --
 
 INSERT INTO `course` (`id_course`, `name`, `start_date`, `end_date`, `id_teacher`) VALUES
-(1, 'Français', '2024-01-29', '2024-02-16', 0),
-(2, 'Histoire', '2024-02-05', '2024-02-16', 0);
+(1, 'Français', '2024-01-29', '2024-02-16', 1),
+(2, 'Histoire', '2024-02-05', '2024-02-16', 2),
+(3, 'Géographie', '2024-02-05', '2024-02-16', 2),
+(4, 'Mathématiques', '2024-02-12', '2024-03-08', 3),
+(5, 'Physique', '2024-02-19', '2024-03-08', 4),
+(6, 'Chimie', '2024-02-26', '2024-03-15', 4),
+(7, 'Anglais', '2024-02-12', '2024-02-24', 5),
+(8, 'Sport', '2024-03-04', '2024-03-15', 6);
 
 -- --------------------------------------------------------
 
@@ -76,16 +91,22 @@ CREATE TABLE IF NOT EXISTS `person` (
   `id_address` int DEFAULT NULL,
   PRIMARY KEY (`id_person`),
   UNIQUE KEY `id_address` (`id_address`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `person`
 --
 
 INSERT INTO `person` (`id_person`, `first_name`, `last_name`, `age`, `id_address`) VALUES
-(1, 'Paul', 'Dubois', 12, NULL),
-(2, 'Valérie', 'Dumont', 13, NULL),
-(3, 'Louis', 'Berthot', 11, NULL);
+(1, 'Paul', 'Dubois', 12, 1),
+(2, 'Valérie', 'Dumont', 13, 2),
+(3, 'Louis', 'Berthot', 11, 3),
+(4, 'Victor', 'Hugo', 23, NULL),
+(5, 'Jules', 'Michelet', 32, NULL),
+(6, 'Sophie', 'Germain', 25, NULL),
+(7, 'Marie', 'Curie', 31, NULL),
+(8, 'William', 'Shakespeare', 34, NULL),
+(9, 'Michel', 'Platini', 42, NULL);
 
 -- --------------------------------------------------------
 
@@ -99,7 +120,16 @@ CREATE TABLE IF NOT EXISTS `student` (
   `id_person` int NOT NULL,
   PRIMARY KEY (`student_nbr`),
   UNIQUE KEY `id_person` (`id_person`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `student`
+--
+
+INSERT INTO `student` (`student_nbr`, `id_person`) VALUES
+(1, 1),
+(2, 2),
+(3, 3);
 
 -- --------------------------------------------------------
 
@@ -113,7 +143,23 @@ CREATE TABLE IF NOT EXISTS `takes` (
   `id_course` int NOT NULL,
   PRIMARY KEY (`student_nbr`,`id_course`),
   KEY `id_course` (`id_course`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `takes`
+--
+
+INSERT INTO `takes` (`student_nbr`, `id_course`) VALUES
+(2, 1),
+(2, 2),
+(1, 3),
+(3, 3),
+(3, 4),
+(1, 5),
+(3, 5),
+(2, 6),
+(1, 7),
+(3, 8);
 
 -- --------------------------------------------------------
 
@@ -128,7 +174,54 @@ CREATE TABLE IF NOT EXISTS `teacher` (
   `id_person` int NOT NULL,
   PRIMARY KEY (`id_teacher`),
   UNIQUE KEY `id_person` (`id_person`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Déchargement des données de la table `teacher`
+--
+
+INSERT INTO `teacher` (`id_teacher`, `start_date`, `id_person`) VALUES
+(1, '2023-09-04', 4),
+(2, '2023-09-04', 5),
+(3, '2023-09-04', 6),
+(4, '2023-09-04', 7),
+(5, '2023-09-04', 8),
+(6, '2023-09-04', 9);
+
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `course`
+--
+ALTER TABLE `course`
+  ADD CONSTRAINT `course_ibfk_1` FOREIGN KEY (`id_teacher`) REFERENCES `teacher` (`id_teacher`);
+
+--
+-- Contraintes pour la table `person`
+--
+ALTER TABLE `person`
+  ADD CONSTRAINT `person_ibfk_1` FOREIGN KEY (`id_address`) REFERENCES `address` (`id_address`);
+
+--
+-- Contraintes pour la table `student`
+--
+ALTER TABLE `student`
+  ADD CONSTRAINT `student_ibfk_1` FOREIGN KEY (`id_person`) REFERENCES `person` (`id_person`);
+
+--
+-- Contraintes pour la table `takes`
+--
+ALTER TABLE `takes`
+  ADD CONSTRAINT `takes_ibfk_1` FOREIGN KEY (`student_nbr`) REFERENCES `student` (`student_nbr`),
+  ADD CONSTRAINT `takes_ibfk_2` FOREIGN KEY (`id_course`) REFERENCES `course` (`id_course`);
+
+--
+-- Contraintes pour la table `teacher`
+--
+ALTER TABLE `teacher`
+  ADD CONSTRAINT `teacher_ibfk_1` FOREIGN KEY (`id_person`) REFERENCES `person` (`id_person`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
